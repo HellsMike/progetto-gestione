@@ -19,5 +19,5 @@ from gestione import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('homepage', views.homepage, name='homepage')
+    path('homepage/', views.homepage, name='homepage')
 ]
