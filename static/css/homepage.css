@@ -1,6 +1,8 @@
-.body {
-    background-color: black;
+body {
+    background-image: url("/static/media/homepage_background.jpg");
+    background-repeat: repeat-y;
 }
-.prova {
-    background-color: brown;
+
+.card_container {
+    background-color: dimgray;
 }
