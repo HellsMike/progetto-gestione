@@ -12,11 +12,13 @@ def json_fix():
         with open(url, encoding='utf-8') as file:
             content = json.load(file)
         
+        '''Cicla i documenti presenti nel json'''
         for document in content:
+            '''Esegue l\'operazione per ogni campo elaborato ("grouped" a Web Scraper)'''
             for key in ('ingredienti', 'ingredienti_token', 'preparazione'):
                 values = document[key].replace('\\t', '').replace('\\n', ' ')
                 values = re.sub(' +', ' ', values)
-                values = json.loads(values)
+                values = json.loads(values) #Legge i valori dei campi (dizionario) come json per unirli in una singola stringa
                 new_string = ''
 
                 for value in values:
