@@ -31,7 +31,7 @@
             <div class="col-md-8 align-self-center mt-4 mb-4">
                 <div class="container-fluid">
                     <form class="d-flex">
-                      <input class="form-control me-2" type="search" placeholder="Cerca" aria-label="Search">
+                      <input id="query-field" class="form-control me-2" type="search" placeholder="Cerca" aria-label="Search">
                       <button class="btn btn-warning" type="submit">Cerca</button>
                     </form>
                 </div>
@@ -101,6 +101,34 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 
+<!--
+<script>
+    let query_field = document.getElementById('query-field')
+    query_field.addEventListener('input', checkSingleToken)
+    syn_checkbox = document.getElementById('syn-checkbox')
+    checkbox_label = document.getElementById('checkbox-label')
+
+    function checkSingleToken(e) {
+        let query = e.target.value
+        let num_of_tokens = query.split(' ').length
+        if (num_of_tokens != 1) {
+            if (num_of_tokens == 2 && query.split(' ')[1] == '') {
+                syn_checkbox.disabled = false
+                checkbox_label.className = "text-white"
+                checkbox_label.title = ""
+            } else {
+                syn_checkbox.disabled = true
+                checkbox_label.className = "text-secondary"
+                checkbox_label.title = "Funzionalità disponibile solo per ricerca di parole singole"
+            }
+        } else {
+            syn_checkbox.disabled = false
+            checkbox_label.className = "text-white"
+            checkbox_label.title = ""
+        }
+    }
+</script>
+-->
 
 </body>
 </html>

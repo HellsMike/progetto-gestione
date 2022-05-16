@@ -1,55 +1,24 @@
-from django.http import JsonResponse
 from django.shortcuts import render
+from django.core.paginator import Paginator
 from gestione.backend import parsing
 
 
-def homepage(request):
-    query = request.GET.get('query')
-    field = request.GET.get('field')
-    is_syn = request.GET.get('enable_syn') == 'on'
-    current_page = request.GET.get('current_page')
+def homepage(request, query=None, field=None, is_syn=None, page=1):
+    is_last_page = False
     
-    if current_page:
-        current_page = int(current_page)
-        results = parsing(query, field, is_syn, current_page+1)
-        current_page += 1
-        current_results = int(request.GET.get('current_results')) + results.pagelen
-        total_results = int(request.GET.get('total_results'))
-        
-        if current_page * 20 >= total_results:
-            new_results = []
-            return JsonResponse({
-                'current_page': current_page,
-                'results': new_results
-            })
-        else:
-            new_results = []
-            for result in results:
-                new_results.append(result.fields())
-            return JsonResponse({
-                'current_results': current_results,
-                'current_page': current_page,
-                'results': new_results,
-            })
-    elif query not in [None, ""]:
-        results = parsing(query, field, is_syn)
-        current_page = 1
-        total_results = len(results)
-        current_results = results.pagelen
-    else:
-        return render(request, 'gestione/homepage.html')
-
     if is_syn:
-        context["enable_syn"] = "on"
+        is_syn = True
+    if query not in [None, '']:
+        results = parsing(query, field, is_syn, page)
+        if len(parsing(query, field, is_syn, page+1)) < 1:
+            is_last_page = True        
+    else:
+        results = []
         
     context = {
-        'current_page': current_page,
-        'current_results': current_results,
-        'total_results': total_results,
-        'results': list(results),
-        'query': query,
-        'field': field,
-        'enable_syn': 'on' if is_syn else ''
+        'results': results,
+        'is_first_page': True if page == 1 else False,
+        'is_last_page': is_last_page
     }
     
     return render(request, 'gestione/homepage.html', context)
