@@ -2,7 +2,21 @@ body {
     background-image: url("/static/media/homepage_background.jpg");
     background-repeat: repeat-y;
 }
-
-.card_container {
-    background-color: dimgray;
+.search_style{
+    background-color: #000225;
 }
+.container_style{
+    background-color: #000225;
+}
+.card_style{
+    background-color: #2b3d5b;
+}
+
+.header_card_style{
+    background-color: #15253f;
+}
+
+.footer_card_style{
+    background-color: #15253f;
+}
+
