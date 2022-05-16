@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load gestione_tags %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -41,121 +41,62 @@
 
     <div class="container justify-content-center mt-4 mb-4 rounded-3 container_style">
         <div id="results" class="row pt-4 pb-4 px-4">
-
-            <div class="col-md-4 mb-2">
-                <div class="card  card_style text-center text-white h-100">
-                    <img class="card-img-top" src="https://www.giallozafferano.it/images/10-1012/Crostata-con-curd-di-fragole_780x520_wm.jpg" alt="Card image cap">
-                    <div class="card-header header_card_style">
-                        <h3>Titolo ricetta</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text"><small class="text-warning">sito</small></p>
-                        <h5 class="card-text text-white">categoria</h5>
-                    </div>
-                    <div class="card-footer footer_card_style">
-                        <div class="d-grid gap-2 col-6 mx-auto">
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Dettagli
-                            </button>
+            {% for result in results %}
+                <div class="col-md-4 mb-2">
+                    <div class="card  card_style text-center text-white h-100">
+                        <img class="card-img-top" src="{{ result.immagine_src }}" alt="Card image cap">
+                        <div class="card-header header_card_style">
+                            <h3>{{ result.titolo }}</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><small class="text-warning">{{ result.fonte }}</small></p>
+                            <h5 class="card-text text-white">{{ result.categoria }}</h5>
+                        </div>
+                        <div class="card-footer footer_card_style">
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#recipeModal{{ result.ricetta_link }}">
+                                    Dettagli
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-md-4 mb-2">
-                <div class="card  card_style text-center text-white h-100">
-                    <img class="card-img-top" src="https://www.giallozafferano.it/images/10-1012/Crostata-con-curd-di-fragole_780x520_wm.jpg" alt="Card image cap">
-                    <div class="card-header header_card_style">
-                        <h3>Titolo ricetta</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text"><small class="text-warning">sito</small></p>
-                        <h5 class="card-text text-white">categoria</h5>
-                    </div>
-                    <div class="card-footer footer_card_style">
-                        <div class="d-grid gap-2 col-6 mx-auto">
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Dettagli
-                            </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="recipeModal{{ result.ricetta_link }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLabel">{{ result.titolo }}</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src="{{ result.immagine_src }}">
+                                </div>
+                                <div class="col-md-6 ms-auto mt-2">
+                                    <h4>Ingredienti:</h4>
+                                    <div class="px-3 pt-2">
+                                        {% for ingedient in result.ingredienti|process_ingredients %}
+                                            {{ ingedient }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <h4> Preparazione </h4>
+                        <p> {{ result.preparazione }} </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button onclick="location.href='{{ result.ricetta_link }}'" type="button" class="btn btn-primary">Vai al sito</button>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-2">
-                <div class="card  card_style text-center text-white h-100">
-                    <img class="card-img-top" src="https://www.giallozafferano.it/images/10-1012/Crostata-con-curd-di-fragole_780x520_wm.jpg" alt="Card image cap">
-                    <div class="card-header header_card_style">
-                        <h3>Titolo ricetta</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text"><small class="text-warning">sito</small></p>
-                        <h5 class="card-text text-white">categoria</h5>
-                    </div>
-                    <div class="card-footer footer_card_style">
-                        <div class="d-grid gap-2 col-6 mx-auto">
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Dettagli
-                            </button>
-                        </div>
                     </div>
                 </div>
-            </div>
-
-
-
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="modal-title" id="exampleModalLabel">Titolo ricetta</h3>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-                <div class="row">
-                  <div class="col-md-4">
-                      <img src="https://www.giallozafferano.it/images/222-22205/Torta-di-fragole_450x300.jpg">
-                  </div>
-                  <div class="col-md-6 ms-auto mt-2">
-                      <h4>Ingredienti:</h4>
-                      <div class="px-3 pt-2">
-                          <p> Ingrediente 1</p>
-                          <p> Ingrediente 2</p>
-                          <p> Ingrediente 3</p>
-                      </div>
-                  </div>
-                </div>
-              <h4> Preparazione </h4>
-            <p>
-                Per preparare la torta di fragole, inizate facendo sciogliere il burro a fuoco dolce, poi lasciatelo intiepidire. Dividete gli albumi dai tuorli delle 2 uova necessarie alla ricetta. Sbattete gli albumi con le fruste elettriche 1 fino a montarli a neve ferma 2. Lavate e togliete le foglioline da 240 g di fragole, quindi ponetele nel mixer 3.
-
-                Versate anche i 2 tuorli 4, lo zucchero 5 e il succo di mezzo limone 6.
-
-                Unite la farina 7 e il lievito 8. Frullate il tutto fino ad ottenere un composto omogeneo. Poi versate il burro fuso intiepidito 9.
-
-                Frullate nuovamente per amalgamare il burro al resto degli ingredienti 10. A questo punto potete unire l'impasto alle fragole con gli albumi, mescolando con una marisa dall'alto verso il basso 11 per non smontare gli albumi montati. Imburrate e infarinate uno stampo da 23 cm di diametro 12.
-
-                Versate l'impasto all'interno dello stampo 13, quindi cuocete la torta a 180° per circa 55 minuti in forno statico preriscaldato. Una volta pronta 14, sfornate la vostra torta e lasciatela intiepidire, poi potrete sformarla. Preparate la farcitura: lavate e togliete le foglioline dalle fragole quindi tagliatele a fettine 15.
-
-                Montate la panna fresca possibilmente con fruste e ciotola ben fredde 16. Ora che la torta è fredda, potete dividerla a metà 17 18.
-
-                Farcite la base con la confettura alle fragole 19, la panna montata 20 e le fettine di fragole 21.
-
-                Poi adagiate l'altro disco di torta sulla farcitura 22, decorate con zucchero a velo la superficie 23 e guarnite con fragole fresche 24. La vostra torta alle fragole è pronta per essere divorata!
-
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Vai al sito</button>
-          </div>
+            {% endfor %}
         </div>
-      </div>
     </div>
 
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
