@@ -103,8 +103,8 @@ def parsing(base_query, field, is_syn, page=1):
     indx = index.open_dir('static/indices/index_full')
     multi_parser = MultifieldParser(fields, schema=indx.schema)
     parsed_query = multi_parser.parse(new_query.encode('utf-8'))
-    searcher = indx.searcher()
-    results = searcher.search_page(parsed_query, page, pagelen=20)
+    with indx.searcher() as searcher:
+        results = searcher.search_page(parsed_query, page, pagelen=20)
 
     return results
 
