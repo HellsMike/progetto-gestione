@@ -1,12 +1,11 @@
-from django.shortcuts import render
-from django.core.paginator import Paginator
+from django.shortcuts import redirect, render
 from gestione.backend import parsing
 
 
-def homepage(request, query=None, field=None, is_syn=None, page=1):
+def homepage(request, query=None, field=None, is_syn=False, page=1):   
     is_last_page = False
     
-    if is_syn:
+    if is_syn == 'y':
         is_syn = True
     if query not in [None, '']:
         results = parsing(query, field, is_syn, page)
@@ -22,3 +21,12 @@ def homepage(request, query=None, field=None, is_syn=None, page=1):
     }
     
     return render(request, 'gestione/homepage.html', context)
+
+
+def get_query(request):
+    query = request.GET.get('query')
+    field = request.GET.get('field')
+    is_syn = request.GET.get('is_syn')
+    page = request.GET.get('page')
+    
+    return redirect(f'homepage/{query}/{field}/{is_syn}/{page}')
