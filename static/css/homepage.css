@@ -3,20 +3,23 @@ body {
     background-repeat: repeat-y;
 }
 .search_style{
-    background-color: #000225;
+    background-color: #2a2a2a;
 }
 .container_style{
-    background-color: #000225;
+    background-color: #2a2a2a;
 }
 .card_style{
-    background-color: #2b3d5b;
+    background-color: #933b27;
 }
 
 .header_card_style{
-    background-color: #15253f;
+    background-color: #6e2f1a;
 }
 
 .footer_card_style{
-    background-color: #15253f;
+    background-color: #6e2f1a;
 }
 
+.recepy_img{
+    height:300px;
+}
