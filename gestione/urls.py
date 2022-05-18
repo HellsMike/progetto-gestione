@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('<str:query>/<str:field>/<str:is_syn>/<int:page>>', views.homepage, name='homepage'),
     path('<str:query>/<str:field>/<str:is_syn>', views.homepage, name='homepage'),
+    path('<str:query>/<str:field>/<int:page>', views.homepage, name='homepage'),
+    path('<str:query>/<str:field>', views.homepage, name='homepage'),
     path('', views.homepage, name='homepage'),
-    path('get-query', views.get_query, name='get-query')
 ]
