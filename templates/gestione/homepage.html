@@ -39,6 +39,7 @@
         </div>
     </div>
 
+    {% if results %}
     <div class="container justify-content-center mt-4 mb-4 rounded-3 container_style">
         <div id="results" class="row pt-4 pb-4 px-4">
             {% for result in results %}
@@ -96,6 +97,7 @@
             {% endfor %}
         </div>
     </div>
+    {% endif %}
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
