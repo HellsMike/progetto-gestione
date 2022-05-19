@@ -18,7 +18,7 @@
         <div class="row  justify-content-center rounded-3 search_style">
             <div class="col-md-8 align-self-center mt-4 mb-4">
                 <div class="container-fluid">
-                    <form class="d-flex" action={% url 'homepage' %} method="get">
+                    <form class="d-flex" action={% url 'get-data' %} method="post">{% csrf_token %}
                         <div class="dropdown px-2">
                             <select name="field" class="form-select" aria-label="Scegli il campo su cui cercare">
                                 <option value="tutto" selected>Tutto</option>
@@ -30,9 +30,9 @@
                         <input name="query" id="query-field" class="form-control me-2" type="search" placeholder="Cerca" aria-label="Search">
                         <button class="btn btn-warning" type="submit">Cerca</button>
                         {% if is_syn %}
-                            <button class="btn btn-secondary mx-2" type="submit">Sinonimi</button>
+                            <button class="btn btn-secondary mx-2" type="submit" name="is_syn" value="syn">Sinonimi</button>
                         {% else %}
-                            <button class="btn btn-warning mx-2" type="submit">Sinonimi</button>
+                            <button class="btn btn-warning mx-2" type="submit" name="is_syn" value="syn">Sinonimi</button>
                         {% endif %}
                     </form>
                 </div>
@@ -56,7 +56,7 @@
                         </div>
                         <div class="card-footer footer_card_style">
                             <div class="d-grid gap-2 col-6 mx-auto">
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#recipeModal{{ result.titolo|cut:" " }}">
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#recipeModal{{result.ricetta_link|normalize_url}}">
                                     Dettagli
                                 </button>
                             </div>
@@ -65,7 +65,7 @@
                 </div>
                 
                 <!-- Modal -->
-                <div class="modal fade" id="recipeModal{{ result.titolo|cut:" " }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="recipeModal{{result.ricetta_link|normalize_url}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header header_card_style">
@@ -98,19 +98,37 @@
                 <div class="col-2">
                   <nav aria-label="Page navigation example">
                       <ul class="pagination">
-                        <li class="page-item">
-                          <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                          </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                          </a>
-                        </li>
+                        {% if is_syn == 'syn' %}
+                            {% if not is_first_page %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'homepage' field query is_syn page|add:"-1" %}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if not is_last_page %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'homepage' field query is_syn page|add:"1" %}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            {% if not is_first_page %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'homepage' field query page|add:"-1" %}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if not is_last_page %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'homepage' field query page|add:"1" %}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
                       </ul>
                   </nav>
                 </div>
