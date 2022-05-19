@@ -90,7 +90,7 @@ def parsing(base_query, field, is_syn, page=1):
             new_query = new_query.replace(match, synonyms_get(match[1:]))
     else:
         num_of_words = len(base_query.split(' '))
-        if num_of_words == 1 and is_syn:
+        if num_of_words == 1 and is_syn == 'syn':
             new_query = synonyms_get(base_query)
 
     if field == 'tutto':
@@ -103,8 +103,8 @@ def parsing(base_query, field, is_syn, page=1):
     indx = index.open_dir('static/indices/index_full')
     multi_parser = MultifieldParser(fields, schema=indx.schema)
     parsed_query = multi_parser.parse(new_query.encode('utf-8'))
-    with indx.searcher() as searcher:
-        results = searcher.search_page(parsed_query, page, pagelen=20)
+    searcher = indx.searcher()
+    results = searcher.search_page(parsed_query, page, pagelen=24)
 
     return results
 
@@ -112,12 +112,14 @@ def parsing(base_query, field, is_syn, page=1):
 # Ricerca per sinonimi
 def synonyms_get(word):
     synonyms = [word]
-    #while True:
-        #try:
-    for synonym in wordnet.synsets(word, lang="ita"):
-        for word_lemmatized in synonym.lemmas(lang="ita"):
-            if word_lemmatized.name() != word:
-                synonyms.append(word_lemmatized.name())
-        #except:
+    while True:
+        try:
+            for synonym in wordnet.synsets(word, lang="ita"):
+                for word_lemmatized in synonym.lemmas(lang="ita"):
+                    if word_lemmatized.name() != word:
+                        synonyms.append(word_lemmatized.name())
+            return f'({" OR ".join(synonyms)})'
+        except:
+            download('wordnet')
+            download('omw-1.4')
             
-    return f'({" OR ".join(synonyms)})'
