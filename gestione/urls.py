@@ -19,8 +19,10 @@ from gestione import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('<str:query>/<str:field>/<str:is_syn>/<int:page>>', views.homepage, name='homepage'),
-    path('<str:query>/<str:field>/<str:is_syn>', views.homepage, name='homepage'),
+    path('get-data', views.get_data, name='get-data'),
+    path('<str:field>/<str:query>/<str:is_syn>/<int:page>', views.homepage, name='homepage'),
+    path('<str:field>/<str:query>/<int:page>', views.homepage, name='homepage'),
+    path('<str:field>/<str:query>/<str:is_syn>', views.homepage, name='homepage'),
+    path('<str:field>/<str:query>', views.homepage, name='homepage'),
     path('', views.homepage, name='homepage'),
-    path('get-query', views.get_query, name='get-query')
 ]
