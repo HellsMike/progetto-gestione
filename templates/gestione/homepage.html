@@ -45,13 +45,13 @@
         <div id="results" class="row pt-4 pb-4 px-4">
             {% for result in results %}
                 <div class="col-md-4 mb-2">
-                    <div class="card  card_style text-center text-white h-100">
+                    <div class="card card_style text-center text-white h-100">
                         <img class="card-img-top recepy_img" src="{{ result.immagine_src }}" alt="Card image cap">
                         <div class="card-header header_card_style">
                             <h3>{{ result.titolo }}</h3>
                         </div>
                         <div class="card-body">
-                            <p class="card-text"><small class="text-warning">{{ result.fonte }}</small></p>
+                            <a class="card-text" href="{{result.fonte}}"><small class="text-warning">{{ result.fonte|fancy_source }}</small></a>
                             <h5 class="card-text text-white">{{ result.categoria }}</h5>
                         </div>
                         <div class="card-footer footer_card_style">
@@ -95,7 +95,7 @@
         </div>
         <div class="container">
             <div class="row justify-content-center rounded-3">
-                <div class="col-2">
+                <div class="col-1">
                   <nav aria-label="Page navigation example">
                       <ul class="pagination">
                         {% if is_syn == 'syn' %}
