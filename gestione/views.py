@@ -7,7 +7,7 @@ def homepage(request, query=None, field=None, is_syn='nosyn', page=1):
     
     if query not in [None, '']:
         results = parsing(query, field, is_syn, page)
-        if parsing(query, field, is_syn, page+1)[0] == results[0]:
+        if results.total == 0 or parsing(query, field, is_syn, page+1)[0] == results[0]:
             is_last_page = True        
     else:
         results = []
