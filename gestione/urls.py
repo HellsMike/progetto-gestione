@@ -24,5 +24,6 @@ urlpatterns = [
     path('<str:field>/<str:query>/<int:page>', views.homepage, name='homepage'),
     path('<str:field>/<str:query>/<str:is_syn>', views.homepage, name='homepage'),
     path('<str:field>/<str:query>', views.homepage, name='homepage'),
+    path('<str:field>/', views.homepage, name='homepage'),
     path('', views.homepage, name='homepage'),
 ]
